@@ -1,0 +1,21 @@
+.container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainInfo {
+  display: flex;
+}
+.priceCont {
+  margin-left: 5px;
+}
+.onSaleCont {
+  margin-left: 25px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+.beforeSale {
+  margin-left: 5px;
+}
