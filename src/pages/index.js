@@ -158,8 +158,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <FilterBar handleFilter={handleFilter} />
-        <OverAllStats data={filteredData} filter={filter} />
+        <div className={styles.stickyContainer}>
+          <FilterBar handleFilter={handleFilter} />
+          <OverAllStats data={filteredData} filter={filter} />
+        </div>
         <MainContainer data={filteredData} />
       </main>
     </>

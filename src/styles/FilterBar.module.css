@@ -1,10 +1,13 @@
 .container {
   border: 1px solid #fff;
-  width: 90%;
-  margin: 25px;
+  border-bottom: none;
+  width: 95%;
+  margin-top: 5px;
   padding: 10px;
   text-align: center;
-  border-radius: 5px;
+  border-radius: 5px 5px 0px 0px;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 99;
 }
 
 .form {
@@ -27,12 +30,18 @@
 .form select {
   padding: 5px;
   font-size: 24px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.75);
 }
 
 .form input[type="text"] {
   width: 200px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.75);
 }
 
 .form select {
   cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.75);
 }
