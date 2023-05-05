@@ -19,13 +19,18 @@ const Card = ({ data }) => {
             Amount g/mg:{" "}
             {data.productGrams === "." ? "No Data" : data.productGrams}
           </p>
-          {/* <p>Product ID: {data.productID}</p> */}
         </div>
-
         <div className={styles.dispensaryContainer}>
-          {data.dispensaries.map((d) => {
-            return <DispensaryInnerCard data={d} />;
-          })}
+          <h5>
+            {data.dispensaries.length == 1
+              ? `At ${data.dispensaries.length} Dispensary`
+              : `At ${data.dispensaries.length} Dispensaries`}{" "}
+          </h5>
+          <div className={styles.dispensaries}>
+            {data.dispensaries.map((d) => {
+              return <DispensaryInnerCard data={d} />;
+            })}
+          </div>
         </div>
       </div>
     </Link>
