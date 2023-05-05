@@ -27,6 +27,16 @@ export default function Home() {
 
   const handleFilter = async (vals) => {
     setFilter(vals);
+    // console.log(vals.search);
+    // var arr = [];
+
+    // // AllData.map((d) => {
+    // //   // console.log(d.productName.search(`/${vals.search}/gi`));
+    // //   if (d.productName.toLowerCase().search(vals.search) > -1) {
+    // //     arr.push(d);
+    // //   }
+    // // });
+    // console.log(arr, "THIS");
 
     if (vals.sort === "low") {
       data.sort(
@@ -56,8 +66,9 @@ export default function Home() {
     ) {
       const filterData = await data.filter((d) => {
         if (
-          vals.search.toLowerCase() ==
-          d.productName.slice(0, vals.search.length).toLowerCase()
+          // vals.search.toLowerCase() ==
+          // d.productName.slice(0, vals.search.length).toLowerCase()
+          d.productName.toLowerCase().search(vals.search.toLowerCase()) > -1
         ) {
           return d;
         }
@@ -83,8 +94,7 @@ export default function Home() {
       if (vals.location == "") {
         if (
           d.productType == vals.productType &&
-          vals.search.toLowerCase() ==
-            d.productName.toLowerCase().slice(0, vals.search.length) &&
+          d.productName.toLowerCase().search(vals.search.toLowerCase()) > -1 &&
           vals.amountSearch.toLowerCase() ==
             d.productGrams.slice(0, vals.amountSearch.length).toLowerCase()
         ) {
@@ -93,8 +103,7 @@ export default function Home() {
       } else if (vals.productType == "") {
         if (
           d.location == vals.location &&
-          vals.search.toLowerCase() ==
-            d.productName.toLowerCase().slice(0, vals.search.length) &&
+          d.productName.toLowerCase().search(vals.search.toLowerCase()) > -1 &&
           vals.amountSearch.toLowerCase() ==
             d.productGrams.slice(0, vals.amountSearch.length).toLowerCase()
         ) {
@@ -112,8 +121,7 @@ export default function Home() {
       } else if (
         d.productType == vals.productType &&
         d.location == vals.location &&
-        vals.search.toLowerCase() ==
-          d.productName.toLowerCase().slice(0, vals.search.length) &&
+        d.productName.toLowerCase().search(vals.search.toLowerCase()) > -1 &&
         vals.amountSearch.toLowerCase() ==
           d.productGrams.slice(0, vals.amountSearch.length).toLowerCase()
       ) {
@@ -138,7 +146,7 @@ export default function Home() {
     });
     // SET IT
     setFilteredData(filteredData);
-    console.log(filteredData);
+    // console.log(filteredData);
   };
 
   return (

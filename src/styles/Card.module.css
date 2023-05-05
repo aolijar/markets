@@ -1,5 +1,4 @@
 .cardContainer {
-  border: 1px solid #000;
   color: #000;
   padding: 5px;
   margin: 10px;
@@ -8,6 +7,10 @@
   display: flex;
   justify-content: space-between;
   max-height: 250px;
+  box-shadow: 0px 1.5px 5px rgba(0, 0, 0, 0.57);
+  backdrop-filter: blur(7.5px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .dataContainer {
