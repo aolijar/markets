@@ -8,7 +8,7 @@ import MainContainer from "@/components/MainContainer";
 
 import { useEffect, useState } from "react";
 
-import AllData from "../pages/api/product-array-files/AllFilesNew.json";
+import AllData from "../pages/api/product-array-files/AllFiles.json";
 
 export default function Home() {
   const [data, setData] = useState([]);
