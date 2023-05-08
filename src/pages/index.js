@@ -37,7 +37,10 @@ export default function Home() {
       } else if (vals.location === "" && vals.productType !== "") {
         return item.productType === vals.productType;
       } else if (vals.location !== "" && vals.productType !== "") {
-        return item;
+        return (
+          item.location === vals.location &&
+          item.productType === vals.productType
+        );
       }
     });
     // SET
