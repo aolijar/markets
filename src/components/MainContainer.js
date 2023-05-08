@@ -27,11 +27,6 @@ const MainContainer = ({ data, renderLimit, sortedCheck }) => {
     // console.log(renderHolder);
   };
 
-  const handleSeeMore = () => {
-    setRenderLimit(renderLimit + 50);
-    // console.log(renderLimit, "render limit");
-  };
-
   return (
     <div className={styles.container}>
       {renderHolder.map((d) => {

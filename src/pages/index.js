@@ -12,6 +12,7 @@ import AllData from "../pages/api/product-array-files/AllFiles.json";
 import MoreButton from "@/components/MoreButton";
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
   const [filteredData, setFilteredData] = useState(AllData);
   const [sortedCheck, setSortedCheck] = useState(false);
   const [filterCheck, setFilter] = useState({
@@ -28,9 +29,16 @@ export default function Home() {
   const handlePagination = () => {
     setRenderLimit(renderLimit + 50);
   };
+  //HANDLE LOADING
+  const handleLoading = () => {
+    console.log(loading);
+    setLoading(!loading);
+  };
+  useEffect(() => {
+    setLoading(false);
+  }, []);
   // FILTER FUNCTIONS
   const handleFilterSelect = async (data, vals) => {
-    console.log(vals);
     if (vals.location === "" && vals.productType === "") {
       return data;
     }
@@ -167,17 +175,24 @@ export default function Home() {
           <FilterBar handleAllFilters={handleAllFilters} />
           <OverAllStats data={filteredData} filter={filterCheck} />
         </div>
-        {filteredData.length <= 0 ? (
-          <p className={styles.empty}>No Data</p>
+        {loading ? (
+          <p className={styles.empty}>Loading</p>
         ) : (
           <>
-            <MainContainer
-              sortedCheck={sortedCheck}
-              renderLimit={renderLimit}
-              data={filteredData}
-            />
-            {filteredData.length > renderLimit && (
-              <MoreButton handlePagination={handlePagination} />
+            {filteredData.length <= 0 ? (
+              <p className={styles.empty}>No Data</p>
+            ) : (
+              <>
+                <MainContainer
+                  handleLoading={handleLoading}
+                  sortedCheck={sortedCheck}
+                  renderLimit={renderLimit}
+                  data={filteredData}
+                />
+                {filteredData.length > renderLimit && (
+                  <MoreButton handlePagination={handlePagination} />
+                )}
+              </>
             )}
           </>
         )}
