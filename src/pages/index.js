@@ -14,7 +14,6 @@ import MoreButton from "@/components/MoreButton";
 export default function Home() {
   const [filteredData, setFilteredData] = useState(AllData);
   const [sortedCheck, setSortedCheck] = useState(false);
-  const [searchHolder, setSearchHolder] = useState([]);
   const [filterCheck, setFilter] = useState({
     location: "",
     productType: "",
@@ -24,11 +23,6 @@ export default function Home() {
     priceSort: "",
     salesSort: "",
   });
-  const [searchCheck, setSearchCheck] = useState({
-    searchCompany: "",
-    searchProduct: "",
-    searchGrams: "",
-  });
   const [renderLimit, setRenderLimit] = useState(50);
   // SEE MORE BUTTIN FUNCTION
   const handlePagination = () => {
@@ -36,6 +30,7 @@ export default function Home() {
   };
   // FILTER FUNCTIONS
   const handleFilterSelect = async (data, vals) => {
+    console.log(vals);
     if (vals.location === "" && vals.productType === "") {
       return data;
     }
@@ -44,65 +39,62 @@ export default function Home() {
         return item.location === vals.location;
       } else if (vals.location === "" && vals.productType !== "") {
         return item.productType === vals.productType;
-      } else if (vals.location !== "" && vals.productType !== "") {
+      } else {
         return (
           item.location === vals.location &&
           item.productType === vals.productType
         );
       }
     });
+    // BETTER WEAY TO LOOP OVER KEYS AND SUCH
+    // for (var key in vals) {
+    //   console.log(item[key], vals[key]);
+    //   if (vals[key] === "") continue;
+    //   if (item[key].toLowerCase().search(vals[key].toLowerCase()))
+    //     return true;
+    // }
+    // return false;
     // SET
     return filtered;
   };
-  const handleFilterSearch = async (data, vals) => {
+  const handleFilterSearch = async (data, vals, valsOne) => {
     if (
       vals.searchCompany === "" &&
       vals.searchProduct === "" &&
       vals.searchGrams === ""
     ) {
-      setSearchCheck({
-        searchCompany: vals.searchCompany,
-        searchProduct: vals.searchProduct,
-        searchGrams: vals.searchGrams,
-      });
       return data;
-    } else if (
-      vals.searchCompany === searchCheck.searchCompany &&
-      vals.searchProduct === searchCheck.searchProduct &&
-      vals.searchGrams === searchCheck.searchGrams
-    ) {
-      return searchHolder;
     }
-    var searched = await data.filter((item) => {
-      if (vals.searchCompany != searchCheck.searchCompany) {
-        // console.log("company");
+    var searched = data;
+    if (vals.searchCompany != "") {
+      // console.log("company");
+      searched = await searched.filter((item) => {
         return (
           item.productCompany
             .toLowerCase()
             .search(vals.searchCompany.toLowerCase()) > -1
         );
-      } else if (vals.searchProduct != searchCheck.searchProduct) {
+      });
+    }
+    if (vals.searchProduct != "") {
+      searched = await searched.filter((item) => {
         // console.log("product");
         return (
           item.productName
             .toLowerCase()
             .search(vals.searchProduct.toLowerCase()) > -1
         );
-      } else if (vals.searchGrams != searchCheck.searchGrams) {
+      });
+    }
+    if (vals.searchGrams != "") {
+      searched = await searched.filter((item) => {
         // console.log("grams");
         return (
           vals.searchGrams.toLowerCase() ==
           item.productGrams.slice(0, vals.searchGrams.length).toLowerCase()
         );
-      }
-    });
-    // SET
-    setSearchHolder(searched);
-    setSearchCheck({
-      searchCompany: vals.searchCompany,
-      searchProduct: vals.searchProduct,
-      searchGrams: vals.searchGrams,
-    });
+      });
+    }
     // THIS IS AT THE BOTTOM BECAUSE OF CHECKS IN FILTER FUNCTION
     return searched;
   };
