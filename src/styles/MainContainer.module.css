@@ -1,3 +1,10 @@
 .container {
   width: 105%;
 }
+
+.empty {
+  color: #000;
+  font-size: 50px;
+  text-align: center;
+  margin-top: 50px;
+}

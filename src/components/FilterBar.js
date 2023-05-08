@@ -2,13 +2,7 @@ import styles from "../styles/FilterBar.module.css";
 
 import { useState, useEffect } from "react";
 
-const FilterBar = ({
-  // handleFilterSelect,
-  // handleFilterSort,
-  // handleFilterSearch,
-  // data,
-  handleAllFilters,
-}) => {
+const FilterBar = ({ handleAllFilters }) => {
   const [selectBoxObjects, setSelectBoxObjects] = useState({
     location: "",
     productType: "",

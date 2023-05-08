@@ -11,7 +11,6 @@ const Card = ({ data }) => {
     >
       <div className={styles.cardContainer}>
         <div className={styles.dataContainer}>
-          <p>Location: {data.location}</p>
           <p>Company: {data.productCompany}</p>
           <p>Product Type: {data.productType}</p>
           <p>Product: {data.productName}</p>
@@ -29,7 +28,12 @@ const Card = ({ data }) => {
           </h5>
           <div className={styles.dispensaries}>
             {data.dispensaries.map((d) => {
-              return <DispensaryInnerCard data={d} />;
+              return (
+                <DispensaryInnerCard
+                  key={data.dispensaries.indexOf(d)}
+                  data={d}
+                />
+              );
             })}
           </div>
         </div>

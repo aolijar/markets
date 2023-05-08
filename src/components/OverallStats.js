@@ -5,6 +5,7 @@ const OverAllStats = ({ filter, data }) => {
   const [average, setAverage] = useState(0);
 
   useEffect(() => {
+    // console.log(filter);
     if (data.length <= 0) {
       setAverage(0);
       return;
