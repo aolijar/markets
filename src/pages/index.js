@@ -9,6 +9,7 @@ import MainContainer from "@/components/MainContainer";
 import { useEffect, useState } from "react";
 
 import AllData from "../pages/api/product-array-files/AllFiles.json";
+import MoreButton from "@/components/MoreButton";
 
 export default function Home() {
   const [filteredData, setFilteredData] = useState(AllData);
@@ -26,6 +27,11 @@ export default function Home() {
     searchProduct: "",
     searchGrams: "",
   });
+  const [renderLimit, setRenderLimit] = useState(50);
+  // SEE MORE BUTTIN FUNCTION
+  const handlePagination = () => {
+    setRenderLimit(renderLimit + 50);
+  };
   // FILTER FUNCTIONS
   const handleFilterSelect = async (data, vals) => {
     if (vals.location === "" && vals.productType === "") {
@@ -52,6 +58,11 @@ export default function Home() {
       vals.searchProduct === "" &&
       vals.searchGrams === ""
     ) {
+      setSearchCheck({
+        searchCompany: vals.searchCompany,
+        searchProduct: vals.searchProduct,
+        searchGrams: vals.searchGrams,
+      });
       return data;
     } else if (
       vals.searchCompany === searchCheck.searchCompany &&
@@ -126,7 +137,6 @@ export default function Home() {
     // SET
     return sorted;
   };
-
   const handleAllFilters = async (valsOne, valsTwo, valsThree) => {
     // console.log(valsOne, valsTwo, valsThree);
     const oneData = await handleFilterSelect(AllData, valsOne);
@@ -157,7 +167,16 @@ export default function Home() {
           <FilterBar handleAllFilters={handleAllFilters} />
           <OverAllStats data={filteredData} filter={filterCheck} />
         </div>
-        <MainContainer data={filteredData} />
+        {filteredData.length <= 0 ? (
+          <p className={styles.empty}>No Data</p>
+        ) : (
+          <>
+            <MainContainer renderLimit={renderLimit} data={filteredData} />
+            {filteredData.length > renderLimit && (
+              <MoreButton handlePagination={handlePagination} />
+            )}
+          </>
+        )}
       </main>
     </>
   );
