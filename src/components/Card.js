@@ -12,6 +12,7 @@ const Card = ({ data }) => {
       <div className={styles.cardContainer}>
         <div className={styles.dataContainer}>
           <p>Location: {data.location}</p>
+          <p>Company: {data.productCompany}</p>
           <p>Product Type: {data.productType}</p>
           <p>Product: {data.productName}</p>
           <p>Average Price: ${Number(data.averagePrice).toFixed(2)}</p>
