@@ -4,13 +4,13 @@ import Card from "./Card";
 
 import { useState, useEffect } from "react";
 
-const MainContainer = ({ data, renderLimit }) => {
+const MainContainer = ({ data, renderLimit, sortedCheck }) => {
   const [renderHolder, setRenderHodler] = useState([]);
 
   useEffect(() => {
     // console.log(data, "maaaainin");
     handlePagination(data);
-  }, [data, renderLimit]);
+  }, [data, renderLimit, sortedCheck]);
 
   const handlePagination = (data) => {
     var holder = [];

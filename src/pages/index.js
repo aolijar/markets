@@ -13,6 +13,8 @@ import MoreButton from "@/components/MoreButton";
 
 export default function Home() {
   const [filteredData, setFilteredData] = useState(AllData);
+  const [sortedCheck, setSortedCheck] = useState(false);
+  const [searchHolder, setSearchHolder] = useState([]);
   const [filterCheck, setFilter] = useState({
     location: "",
     productType: "",
@@ -69,7 +71,7 @@ export default function Home() {
       vals.searchProduct === searchCheck.searchProduct &&
       vals.searchGrams === searchCheck.searchGrams
     ) {
-      return data;
+      return searchHolder;
     }
     var searched = await data.filter((item) => {
       if (vals.searchCompany != searchCheck.searchCompany) {
@@ -95,6 +97,7 @@ export default function Home() {
       }
     });
     // SET
+    setSearchHolder(searched);
     setSearchCheck({
       searchCompany: vals.searchCompany,
       searchProduct: vals.searchProduct,
@@ -123,15 +126,20 @@ export default function Home() {
         }
       });
     }
+    console.log(vals);
     // HIGH LOWS
     if (vals.priceSort === "low") {
       sorted = await sorted.sort((a, b) => {
         return a.averagePrice - b.averagePrice;
       });
+      setSortedCheck(!sortedCheck);
     } else if (vals.priceSort === "high") {
       sorted = await sorted.sort((a, b) => {
         return b.averagePrice - a.averagePrice;
       });
+      setSortedCheck(!sortedCheck);
+    } else if (vals.priceSort === "") {
+      setSortedCheck(!sortedCheck);
     }
 
     // SET
@@ -171,7 +179,11 @@ export default function Home() {
           <p className={styles.empty}>No Data</p>
         ) : (
           <>
-            <MainContainer renderLimit={renderLimit} data={filteredData} />
+            <MainContainer
+              sortedCheck={sortedCheck}
+              renderLimit={renderLimit}
+              data={filteredData}
+            />
             {filteredData.length > renderLimit && (
               <MoreButton handlePagination={handlePagination} />
             )}
