@@ -19,6 +19,7 @@ const Card = ({ data }) => {
             Amount g/mg:{" "}
             {data.productGrams === "." ? "No Data" : data.productGrams}
           </p>
+          <p>Location: {data.location}</p>
         </div>
         <div className={styles.dispensaryContainer}>
           <h5>
