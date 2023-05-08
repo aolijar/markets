@@ -76,7 +76,7 @@ const FilterBar = ({ handleAllFilters }) => {
             </select>
           </div>
           <div>
-            <label>Sales Included</label>
+            <label>On Sale Items Included</label>
             <select
               value={sortObjects.sales}
               onChange={(e) =>
