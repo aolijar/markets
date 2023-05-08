@@ -11,156 +11,143 @@ import { useEffect, useState } from "react";
 import AllData from "../pages/api/product-array-files/AllFiles.json";
 
 export default function Home() {
-  const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const [filter, setFilter] = useState({
+  const [filteredData, setFilteredData] = useState(AllData);
+  const [filterCheck, setFilter] = useState({
     location: "",
     productType: "",
-    search: "",
+    searchCompany: "",
+    searchProduct: "",
+    searchGrams: "",
+    sortSort: "",
+    salesSort: "",
   });
+  // FILTER FUNCTIONS
+  const handleFilterSelect = async (data, vals) => {
+    setFilter({
+      ...filterCheck,
+      location: vals.location,
+      productType: vals.productType,
+    });
 
-  // SET AT LOAD
-  useEffect(() => {
-    setData(AllData);
-    setFilteredData(AllData);
-  }, []);
-
-  const handleFilter = async (vals) => {
-    setFilter(vals);
-    // console.log(vals.search);
-    // var arr = [];
-
-    // // AllData.map((d) => {
-    // //   // console.log(d.productName.search(`/${vals.search}/gi`));
-    // //   if (d.productName.toLowerCase().search(vals.search) > -1) {
-    // //     arr.push(d);
-    // //   }
-    // // });
-    // console.log(arr, "THIS");
-
-    if (vals.sort === "low") {
-      data.sort(
-        (a, b) => parseFloat(a.averagePrice) - parseFloat(b.averagePrice)
-      );
-    } else if (vals.sort === "high") {
-      data.sort(
-        (a, b) => parseFloat(b.averagePrice) - parseFloat(a.averagePrice)
-      );
+    if (vals.location === "" && vals.productType === "") {
+      return data;
     }
 
-    // BLANK
-    if (
-      vals.productType == "" &&
-      vals.location == "" &&
-      vals.search == "" &&
-      vals.amountSearch == ""
-    ) {
-      setFilteredData(data);
-      return;
-    }
-    // JUST SEARCH
-    if (
-      vals.location == "" &&
-      vals.productType == "" &&
-      vals.amountSearch == ""
-    ) {
-      const filterData = await data.filter((d) => {
-        if (
-          // vals.search.toLowerCase() ==
-          // d.productName.slice(0, vals.search.length).toLowerCase()
-          d.productName.toLowerCase().search(vals.search.toLowerCase()) > -1
-        ) {
-          return d;
+    var filtered = await data.filter((item) => {
+      for (const key in vals) {
+        if (vals[key] === "") {
+          continue;
         }
-      });
-      setFilteredData(filterData);
-      return;
-    }
-    if (vals.location == "" && vals.productType == "" && vals.search == "") {
-      const filterData = await data.filter((d) => {
-        if (
-          vals.amountSearch.toLowerCase() ==
-          d.productGrams.slice(0, vals.amountSearch.length).toLowerCase()
-        ) {
-          return d;
-        }
-      });
-      setFilteredData(filterData);
-      return;
-    }
-
-    // FILTER STUFF
-    var filteredData = data.filter((d) => {
-      if (vals.location == "") {
-        if (
-          d.productType == vals.productType &&
-          d.productName.toLowerCase().search(vals.search.toLowerCase()) > -1 &&
-          vals.amountSearch.toLowerCase() ==
-            d.productGrams.slice(0, vals.amountSearch.length).toLowerCase()
-        ) {
-          return d;
-        }
-      } else if (vals.productType == "") {
-        if (
-          d.location == vals.location &&
-          d.productName.toLowerCase().search(vals.search.toLowerCase()) > -1 &&
-          vals.amountSearch.toLowerCase() ==
-            d.productGrams.slice(0, vals.amountSearch.length).toLowerCase()
-        ) {
-          return d;
-        }
-      } else if (vals.search == "") {
-        if (
-          d.productType == vals.productType &&
-          d.location == vals.location &&
-          vals.amountSearch.toLowerCase() ==
-            d.productGrams.slice(0, vals.amountSearch.length).toLowerCase()
-        ) {
-          return d;
-        }
-      } else if (
-        d.productType == vals.productType &&
-        d.location == vals.location &&
-        d.productName.toLowerCase().search(vals.search.toLowerCase()) > -1 &&
-        vals.amountSearch.toLowerCase() ==
-          d.productGrams.slice(0, vals.amountSearch.length).toLowerCase()
-      ) {
-        return d;
-      } else if (
-        vals.search == "" &&
-        vals.location == "" &&
-        vals.amountSearch.toLowerCase() == ""
-      ) {
-        if (d.productType == vals.productType) {
-          return d;
-        }
-      } else if (
-        vals.search == "" &&
-        vals.productType == "" &&
-        vals.amountSearch.toLowerCase() == ""
-      ) {
-        if (d.location == vals.location) {
-          return d;
+        if (item[key] != vals[key]) {
+          return false;
         }
       }
+      return true;
     });
-    // SET IT
-    setFilteredData(filteredData);
-    // console.log(filteredData);
+    // SET
+    return filtered;
+  };
+  const handleFilterSearch = async (data, vals) => {
+    if (
+      vals.searchCompany === "" &&
+      vals.searchProduct === "" &&
+      vals.searchGrams === ""
+    ) {
+      return data;
+    }
+    var searched = await data.filter((item) => {
+      if (vals.searchCompany != filterCheck.searchCompany) {
+        // console.log("company");
+        return (
+          item.productCompany
+            .toLowerCase()
+            .search(vals.searchCompany.toLowerCase()) > -1
+        );
+      } else if (vals.searchProduct != filterCheck.searchProduct) {
+        // console.log("product");
+        return (
+          item.productName
+            .toLowerCase()
+            .search(vals.searchProduct.toLowerCase()) > -1
+        );
+      } else if (vals.searchGrams != filterCheck.searchGrams) {
+        // console.log("grams");
+        return (
+          vals.searchGrams.toLowerCase() ==
+          item.productGrams.slice(0, vals.searchGrams.length).toLowerCase()
+        );
+      }
+    });
+    // SET
+    // THIS IS AT THE BOTTOM BECAUSE OF CHECKS IN FILTER FUNCTION
+    setFilter({
+      ...filterCheck,
+      searchCompany: vals.searchCompany,
+      searchProduct: vals.searchProduct,
+      searchGrams: vals.searchGrams,
+    });
+    return searched;
+  };
+  const handleFilterSort = async (data, vals) => {
+    setFilter({
+      ...filterCheck,
+      priceSort: vals.priceSort,
+      salesSort: vals.salesSort,
+    });
+    if (vals.priceSort === "" && vals.salesSort === "") {
+      return data;
+    }
+
+    var sorted = data;
+
+    if (vals.salesSort === "yes") {
+      sorted = await sorted.filter((d) => {
+        if (d.anyOnSale === true) {
+          return d;
+        }
+      });
+    } else if (vals.salesSort === "no") {
+      sorted = await sorted.filter((d) => {
+        if (d.anyOnSale === null) {
+          return d;
+        }
+      });
+    }
+
+    if (vals.priceSort === "low") {
+      sorted = await sorted.sort((a, b) => {
+        return a.averagePrice - b.averagePrice;
+      });
+    } else if (vals.priceSort === "high") {
+      sorted = await sorted.sort((a, b) => {
+        return b.averagePrice - a.averagePrice;
+      });
+    } else if (vals.priceSort === "") {
+      return sorted;
+    }
+
+    // SET
+    return sorted;
   };
 
+  const handleAllFilters = async (valsOne, valsTwo, valsThree) => {
+    console.log(valsOne, valsTwo, valsThree);
+    const oneData = await handleFilterSelect(AllData, valsOne);
+    const twoData = await handleFilterSearch(oneData, valsTwo);
+    const threeData = await handleFilterSort(twoData, valsThree);
+    setFilteredData(threeData);
+  };
   return (
     <>
       <Head>
         <title>California Markets</title>
-        <meta name="description" content="Generated by create next app" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
         <div className={styles.stickyContainer}>
-          <FilterBar handleFilter={handleFilter} />
-          <OverAllStats data={filteredData} filter={filter} />
+          <FilterBar handleAllFilters={handleAllFilters} />
+          <OverAllStats data={filteredData} filter={filterCheck} />
         </div>
         <MainContainer data={filteredData} />
       </main>

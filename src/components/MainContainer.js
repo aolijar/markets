@@ -2,9 +2,12 @@ import styles from "../styles/MainContainer.module.css";
 
 import Card from "./Card";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const MainContainer = ({ data }) => {
+  useEffect(() => {
+    console.log(data, "maaaainin");
+  }, [data]);
   return (
     <div className={styles.container}>
       {data.map((stuff) => {
