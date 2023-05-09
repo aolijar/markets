@@ -13,6 +13,7 @@ import MoreButton from "@/components/MoreButton";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
+  const [password, setPassword] = useState("");
   const [filteredData, setFilteredData] = useState(AllData);
   const [sortedCheck, setSortedCheck] = useState(false);
   const [filterCheck, setFilter] = useState({
@@ -29,6 +30,13 @@ export default function Home() {
   const handlePagination = () => {
     setRenderLimit(renderLimit + 50);
   };
+  // HANDLE PASSWORD
+
+  const handlePassword = (e) => {
+    e.preventDefault();
+    console.log(password);
+  };
+
   //HANDLE LOADING
   const handleLoading = () => {
     console.log(loading);
@@ -171,26 +179,41 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.stickyContainer}>
-          <FilterBar handleAllFilters={handleAllFilters} />
-          <OverAllStats data={filteredData} filter={filterCheck} />
-        </div>
-        {loading ? (
-          <p className={styles.empty}>Loading</p>
+        {password !== "aeroponic123" ? (
+          <div className={styles.password}>
+            <form onSubmit={(e) => handlePassword(e)}>
+              <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type="text"
+              />
+              <input type="submit" />
+            </form>
+          </div>
         ) : (
           <>
-            {filteredData.length <= 0 ? (
-              <p className={styles.empty}>No Data</p>
+            <div className={styles.stickyContainer}>
+              <FilterBar handleAllFilters={handleAllFilters} />
+              <OverAllStats data={filteredData} filter={filterCheck} />
+            </div>
+            {loading ? (
+              <p className={styles.empty}>Loading</p>
             ) : (
               <>
-                <MainContainer
-                  handleLoading={handleLoading}
-                  sortedCheck={sortedCheck}
-                  renderLimit={renderLimit}
-                  data={filteredData}
-                />
-                {filteredData.length > renderLimit && (
-                  <MoreButton handlePagination={handlePagination} />
+                {filteredData.length <= 0 ? (
+                  <p className={styles.empty}>No Data</p>
+                ) : (
+                  <>
+                    <MainContainer
+                      handleLoading={handleLoading}
+                      sortedCheck={sortedCheck}
+                      renderLimit={renderLimit}
+                      data={filteredData}
+                    />
+                    {filteredData.length > renderLimit && (
+                      <MoreButton handlePagination={handlePagination} />
+                    )}
+                  </>
                 )}
               </>
             )}
