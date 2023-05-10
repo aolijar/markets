@@ -73,7 +73,7 @@ export default function Home() {
     // SET
     return filtered;
   };
-  const handleFilterSearch = async (data, vals, valsOne) => {
+  const handleFilterSearch = async (data, vals) => {
     if (
       vals.searchCompany === "" &&
       vals.searchProduct === "" &&
@@ -116,6 +116,9 @@ export default function Home() {
   };
   const handleFilterSort = async (data, vals) => {
     if (vals.priceSort === "" && vals.salesSort === "") {
+      setSortedCheck(!sortedCheck);
+      console.log(vals.priceSort);
+      // HIGH LOWS
       return data;
     }
 
@@ -133,10 +136,8 @@ export default function Home() {
           return d;
         }
       });
-    }
-    console.log(vals);
-    // HIGH LOWS
-    if (vals.priceSort === "low") {
+    } // HIGH LOWS
+    else if (vals.priceSort === "low") {
       sorted = await sorted.sort((a, b) => {
         return a.averagePrice - b.averagePrice;
       });
