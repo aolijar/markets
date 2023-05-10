@@ -91,7 +91,7 @@ const FilterBar = ({ handleAllFilters }) => {
         </div>
         <div>
           <div>
-            <label>Search Company</label>
+            <label>Search By Company</label>
             <input
               value={searchObjects.companySearch}
               onChange={(e) =>
@@ -104,7 +104,7 @@ const FilterBar = ({ handleAllFilters }) => {
             />
           </div>
           <div>
-            <label>Search Product</label>
+            <label>Search By Product Name</label>
             <input
               value={searchObjects.searchProduct}
               onChange={(e) =>
