@@ -76,6 +76,7 @@ const Chart = ({ data }) => {
 
     series: [
       {
+        name: "Products",
         data: arr,
       },
     ],
