@@ -3,6 +3,7 @@ import styles from "../styles/FilterBar.module.css";
 import { useState, useEffect } from "react";
 
 const FilterBar = ({ handleAllFilters }) => {
+  const [deleteOption, setDeleteOption] = useState(true);
   const [selectBoxObjects, setSelectBoxObjects] = useState({
     location: "",
     productType: "",
@@ -17,6 +18,9 @@ const FilterBar = ({ handleAllFilters }) => {
     searchGrams: "",
   });
   useEffect(() => {
+    if (sortObjects.priceSort != "") {
+      setDeleteOption(false);
+    }
     handleAllFilters(selectBoxObjects, searchObjects, sortObjects);
   }, [selectBoxObjects, searchObjects, sortObjects]);
 
@@ -70,7 +74,7 @@ const FilterBar = ({ handleAllFilters }) => {
                 setSortObjects({ ...sortObjects, priceSort: e.target.value })
               }
             >
-              <option value="">None</option>
+              {deleteOption && <option value=""></option>}
               <option value="high">High</option>
               <option value="low">Low</option>
             </select>

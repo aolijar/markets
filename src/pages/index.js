@@ -5,11 +5,11 @@ import styles from "@/styles/Home.module.css";
 import FilterBar from "@/components/FilterBar";
 import OverAllStats from "@/components/OverallStats";
 import MainContainer from "@/components/MainContainer";
+import MoreButton from "@/components/MoreButton";
 
 import { useEffect, useState } from "react";
 
 import AllData from "../pages/api/product-array-files/AllFiles.json";
-import MoreButton from "@/components/MoreButton";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -73,7 +73,7 @@ export default function Home() {
     // SET
     return filtered;
   };
-  const handleFilterSearch = async (data, vals) => {
+  const handleFilterSearch = async (data, vals, valsOne) => {
     if (
       vals.searchCompany === "" &&
       vals.searchProduct === "" &&
@@ -116,9 +116,6 @@ export default function Home() {
   };
   const handleFilterSort = async (data, vals) => {
     if (vals.priceSort === "" && vals.salesSort === "") {
-      setSortedCheck(!sortedCheck);
-      console.log(vals.priceSort);
-      // HIGH LOWS
       return data;
     }
 
@@ -136,8 +133,10 @@ export default function Home() {
           return d;
         }
       });
-    } // HIGH LOWS
-    else if (vals.priceSort === "low") {
+    }
+    console.log(vals);
+    // HIGH LOWS
+    if (vals.priceSort === "low") {
       sorted = await sorted.sort((a, b) => {
         return a.averagePrice - b.averagePrice;
       });
