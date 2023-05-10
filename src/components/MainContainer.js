@@ -1,6 +1,7 @@
 import styles from "../styles/MainContainer.module.css";
 
 import Card from "./Card";
+import Chart from "./Chart";
 
 import { useState, useEffect } from "react";
 
@@ -29,9 +30,12 @@ const MainContainer = ({ data, renderLimit, sortedCheck }) => {
 
   return (
     <div className={styles.container}>
-      {renderHolder.map((d) => {
-        return <Card key={renderHolder.indexOf(d)} data={d} />;
-      })}
+      <Chart data={data} />
+      <div className={styles.cardHolder}>
+        {renderHolder.map((d) => {
+          return <Card key={renderHolder.indexOf(d)} data={d} />;
+        })}
+      </div>
     </div>
   );
 };

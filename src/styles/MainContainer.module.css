@@ -1,3 +1,8 @@
 .container {
-  width: 105%;
+  width: 100%;
+  display: flex;
+}
+
+.cardHolder {
+  width: 75%;
 }
